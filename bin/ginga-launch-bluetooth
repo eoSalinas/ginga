@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rfkill unblock bluetooth
+exec ginga-launch-or-focus-tui bluetui

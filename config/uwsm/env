@@ -1,0 +1,8 @@
+# Changes require a restart to take effect.
+
+# Ensure Ginga bins are in the path
+export GINGA_PATH=$HOME/.local/share/ginga
+export PATH=$GINGA_PATH/bin:$PATH
+
+# Set default terminal and editor
+source ~/.config/uwsm/default

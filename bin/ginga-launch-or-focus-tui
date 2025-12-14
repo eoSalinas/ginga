@@ -1,0 +1,6 @@
+#!/bin/bash
+
+APP_ID="org.ginga.$(basename $1)"
+LAUNCH_COMMAND="ginga-launch-tui $@"
+
+exec ginga-launch-or-focus "$APP_ID" "$LAUNCH_COMMAND"

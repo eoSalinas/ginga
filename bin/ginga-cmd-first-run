@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+FIRST_RUN_MODE=~/.local/state/ginga/first-run.mode
+
+if [[ -f "$FIRST_RUN_MODE" ]]; then
+  rm -f "$FIRST_RUN_MODE"
+
+  bash "$GINGA_PATH/install/first-run/battery-monitor.sh"
+  bash "$GINGA_PATH/install/first-run/firewall.sh"
+  bash "$GINGA_PATH/install/first-run/dns-resolver.sh"
+  bash "$GINGA_PATH/install/first-run/gnome-theme.sh"
+  bash "$GINGA_PATH/install/first-run/elephant.sh"
+fi

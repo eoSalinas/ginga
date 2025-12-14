@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cmd="$*"
+# TODO: Re-enable apresentation
+# exec setsid uwsm-app -- xdg-terminal-exec --app-id=org.ginga.terminal --title=Ginga -e bash -c "ginga-show-logo; $cmd; ginga-show-done"
+exec setsid uwsm-app -- xdg-terminal-exec --app-id=org.ginga.terminal --title=Ginga -e bash -c "$cmd"

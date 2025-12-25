@@ -37,40 +37,11 @@ menu() {
 }
 
 terminal() {
-  xdg-terminal-exec --app-id=org.omarchy.terminal "$@"
+  xdg-terminal-exec --app-id=org.ginga.terminal "$@"
 }
 
 present_terminal() {
-  omarchy-launch-floating-terminal-with-presentation $1
-}
-
-open_in_editor() {
-  notify-send "Editing config file" "$1"
-  omarchy-launch-editor "$1"
-}
-
-install() {
-  present_terminal "echo 'Installing $1...'; sudo pacman -S --noconfirm $2"
-}
-
-install_and_launch() {
-  present_terminal "echo 'Installing $1...'; sudo pacman -S --noconfirm $2 && setsid gtk-launch $3"
-}
-
-install_font() {
-  present_terminal "echo 'Installing $1...'; sudo pacman -S --noconfirm --needed $2 && sleep 2 && omarchy-font-set '$3'"
-}
-
-install_terminal() {
-  present_terminal "omarchy-install-terminal $1"
-}
-
-aur_install() {
-  present_terminal "echo 'Installing $1 from AUR...'; yay -S --noconfirm $2"
-}
-
-aur_install_and_launch() {
-  present_terminal "echo 'Installing $1 from AUR...'; yay -S --noconfirm $2 && setsid gtk-launch $3"
+  ginga-launch-floating-terminal-with-presentation $1
 }
 
 show_capture_menu() {
@@ -84,29 +55,29 @@ show_capture_menu() {
 
 show_screenshot_menu() {
   case $(menu "Screenshot" "  Snap with Editing\n  Straight to Clipboard") in
-  *Editing*) omarchy-cmd-screenshot smart ;;
-  *Clipboard*) omarchy-cmd-screenshot smart clipboard ;;
+  *Editing*) ginga-cmd-screenshot smart ;;
+  *Clipboard*) ginga-cmd-screenshot smart clipboard ;;
   *) show_capture_menu ;;
   esac
 }
 
 show_screenrecord_menu() {
-  omarchy-cmd-screenrecord --stop-recording && exit 0
+  ginga-cmd-screenrecord --stop-recording && exit 0
 
   case $(menu "Screenrecord" "  With desktop audio\n  With desktop + microphone audio\n  With desktop + microphone audio + webcam") in
-  *"With desktop audio") omarchy-cmd-screenrecord --with-desktop-audio ;;
-  *"With desktop + microphone audio") omarchy-cmd-screenrecord --with-desktop-audio --with-microphone-audio ;;
-  *"With desktop + microphone audio + webcam") omarchy-cmd-screenrecord --with-desktop-audio --with-microphone-audio --with-webcam ;;
+  *"With desktop audio") ginga-cmd-screenrecord --with-desktop-audio ;;
+  *"With desktop + microphone audio") ginga-cmd-screenrecord --with-desktop-audio --with-microphone-audio ;;
+  *"With desktop + microphone audio + webcam") ginga-cmd-screenrecord --with-desktop-audio --with-microphone-audio --with-webcam ;;
   *) back_to show_capture_menu ;;
   esac
 }
 
 show_toggle_menu() {
   case $(menu "Toggle" "󱄄  Screensaver\n󰔎  Nightlight\n󱫖  Idle Lock\n󰍜  Top Bar") in
-  *Screensaver*) omarchy-toggle-screensaver ;;
-  *Nightlight*) omarchy-toggle-nightlight ;;
-  *Idle*) omarchy-toggle-idle ;;
-  *Bar*) omarchy-toggle-waybar ;;
+  *Screensaver*) ginga-toggle-screensaver ;;
+  *Nightlight*) ginga-toggle-nightlight ;;
+  *Idle*) ginga-toggle-idle ;;
+  *Bar*) ginga-toggle-waybar ;;
   *) show_main_menu ;;
   esac
 }
@@ -115,21 +86,21 @@ show_style_menu() {
   case $(menu "Style" "󰸌  Theme\n  Font\n  Background") in
   *Theme*) show_theme_menu ;;
   *Font*) show_font_menu ;;
-  *Background*) omarchy-theme-bg-next ;;
+  *Background*) ginga-theme-bg-next ;;
   *) show_main_menu ;;
   esac
 }
 
 show_theme_menu() {
-  omarchy-launch-walker -m menus:omarchythemes --width 800 --minheight 400
+  ginga-launch-walker -m menus:gingathemes --width 800 --minheight 400
 }
 
 show_font_menu() {
-  theme=$(menu "Font" "$(omarchy-font-list)" "--width 350" "$(omarchy-font-current)")
+  theme=$(menu "Font" "$(ginga-font-list)" "--width 350" "$(ginga-font-current)")
   if [[ "$theme" == "CNCLD" || -z "$theme" ]]; then
     back_to show_style_menu
   else
-    omarchy-font-set "$theme"
+    ginga-font-set "$theme"
   fi
 }
 
@@ -137,17 +108,17 @@ show_setup_menu() {
   local options="  Audio\n  Wifi\n󰂯  Bluetooth\n󱐋  Power Profile\n󰱔  DNS"
 
   case $(menu "Setup" "$options") in
-  *Audio*) omarchy-launch-or-focus-tui wiremix ;;
-  *Wifi*) omarchy-launch-wifi ;;
-  *Bluetooth*) omarchy-launch-bluetooth ;;
+  *Audio*) ginga-launch-or-focus-tui wiremix ;;
+  *Wifi*) ginga-launch-wifi ;;
+  *Bluetooth*) ginga-launch-bluetooth ;;
   *Power*) show_setup_power_menu ;;
-  *DNS*) present_terminal omarchy-setup-dns ;;
+  *DNS*) present_terminal ginga-setup-dns ;;
   *) show_main_menu ;;
   esac
 }
 
 show_setup_power_menu() {
-  profile=$(menu "Power Profile" "$(omarchy-powerprofiles-list)" "" "$(powerprofilesctl get)")
+  profile=$(menu "Power Profile" "$(ginga-powerprofiles-list)" "" "$(powerprofilesctl get)")
 
   if [[ "$profile" == "CNCLD" || -z "$profile" ]]; then
     back_to show_setup_menu
@@ -157,30 +128,20 @@ show_setup_power_menu() {
 }
 
 show_install_menu() {
-  case $(menu "Install" "  Web App\n  TUI\n󰍲  Windows\n  Gaming") in
-  *Web*) present_terminal omarchy-webapp-install ;;
-  *TUI*) present_terminal omarchy-tui-install ;;
-  *Windows*) present_terminal "omarchy-windows-vm install" ;;
-  *Gaming*) show_install_gaming_menu ;;
+  case $(menu "Install" "  Web App\n  TUI\n󰍲  Windows") in
+  *Web*) present_terminal ginga-webapp-install ;;
+  *TUI*) present_terminal ginga-tui-install ;;
+  *Windows*) present_terminal "ginga-windows-vm install" ;;
   *) show_main_menu ;;
-  esac
-}
-
-show_install_gaming_menu() {
-  case $(menu "Install" "  Steam\n  RetroArch [AUR]\n󰍳  Minecraft") in
-  *Steam*) present_terminal omarchy-install-steam ;;
-  *RetroArch*) aur_install_and_launch "RetroArch" "retroarch retroarch-assets libretro libretro-fbneo" "com.libretro.RetroArch.desktop" ;;
-  *Minecraft*) install_and_launch "Minecraft" "minecraft-launcher" "minecraft-launcher" ;;
-  *) show_install_menu ;;
   esac
 }
 
 show_remove_menu() {
   case $(menu "Remove" "  Web App\n  TUI\n󰸌  Theme\n󰍲  Windows") in
-  *Web*) present_terminal omarchy-webapp-remove ;;
-  *TUI*) present_terminal omarchy-tui-remove ;;
-  *Theme*) present_terminal omarchy-theme-remove ;;
-  *Windows*) present_terminal "omarchy-windows-vm remove" ;;
+  *Web*) present_terminal ginga-webapp-remove ;;
+  *TUI*) present_terminal ginga-tui-remove ;;
+  *Theme*) present_terminal ginga-theme-remove ;;
+  *Windows*) present_terminal "ginga-windows-vm remove" ;;
   *) show_main_menu ;;
   esac
 }
@@ -189,39 +150,39 @@ show_update_menu() {
   case $(menu "Update" "  Process\n󰇅  Hardware\n  Timezone\n  Time") in
   *Process*) show_update_process_menu ;;
   *Hardware*) show_update_hardware_menu ;;
-  *Timezone*) present_terminal omarchy-tz-select ;;
-  *Time*) present_terminal omarchy-update-time ;;
+  *Timezone*) present_terminal ginga-tz-select ;;
+  *Time*) present_terminal ginga-update-time ;;
   *) show_main_menu ;;
   esac
 }
 
 show_update_process_menu() {
   case $(menu "Restart" "  Hypridle\n  Hyprsunset\n  Swayosd\n󰌧  Walker\n󰍜  Waybar") in
-  *Hypridle*) omarchy-restart-hypridle ;;
-  *Hyprsunset*) omarchy-restart-hyprsunset ;;
-  *Swayosd*) omarchy-restart-swayosd ;;
-  *Walker*) omarchy-restart-walker ;;
-  *Waybar*) omarchy-restart-waybar ;;
+  *Hypridle*) ginga-restart-hypridle ;;
+  *Hyprsunset*) ginga-restart-hyprsunset ;;
+  *Swayosd*) ginga-restart-swayosd ;;
+  *Walker*) ginga-restart-walker ;;
+  *Waybar*) ginga-restart-waybar ;;
   *) show_update_menu ;;
   esac
 }
 
 show_update_hardware_menu() {
   case $(menu "Restart" "  Audio\n󱚾  Wi-Fi\n󰂯  Bluetooth") in
-  *Audio*) present_terminal omarchy-restart-pipewire ;;
-  *Wi-Fi*) present_terminal omarchy-restart-wifi ;;
-  *Bluetooth*) present_terminal omarchy-restart-bluetooth ;;
+  *Audio*) present_terminal ginga-restart-pipewire ;;
+  *Wi-Fi*) present_terminal ginga-restart-wifi ;;
+  *Bluetooth*) present_terminal ginga-restart-bluetooth ;;
   *) show_update_menu ;;
   esac
 }
 
 show_system_menu() {
   case $(menu "System" "  Lock\n󱄄  Screensaver\n󰤄  Suspend\n󰜉  Restart\n󰐥  Shutdown") in
-  *Lock*) omarchy-lock-screen ;;
-  *Screensaver*) omarchy-launch-screensaver force ;;
+  *Lock*) ginga-lock-screen ;;
+  *Screensaver*) ginga-launch-screensaver force ;;
   *Suspend*) systemctl suspend ;;
-  *Restart*) omarchy-cmd-reboot ;;
-  *Shutdown*) omarchy-cmd-shutdown ;;
+  *Restart*) ginga-cmd-reboot ;;
+  *Shutdown*) ginga-cmd-shutdown ;;
   *) back_to show_main_menu ;;
   esac
 }

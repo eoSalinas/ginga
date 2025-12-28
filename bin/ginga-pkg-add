@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if omarchy-pkg-missing "$@"; then
+if ginga-pkg-missing "$@"; then
   sudo pacman -S --noconfirm --needed "$@" || exit 1
 fi
 

@@ -77,3 +77,7 @@ ripgrep
 firefox
 wl-clipboard
 gpu-screen-recorder
+pipewire
+pipewire-alsa
+pipewire-jack
+pipewire-pulse

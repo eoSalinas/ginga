@@ -19,10 +19,10 @@ hyprctl keyword cursor:invisible true &>/dev/null
 
 while true; do
   # TODO: check if we want this screensaver
-  # tte -i ~/.config/ginga/branding/screensaver.txt \
-  #   --frame-rate 120 --canvas-width 0 --canvas-height 0 --reuse-canvas --anchor-canvas c --anchor-text c\
-  #   --random-effect --exclude-effects dev_worm \
-  #   --no-eol --no-restore-cursor &
+  tte -i ~/.config/ginga/branding/screensaver.txt \
+    --frame-rate 120 --canvas-width 0 --canvas-height 0 --reuse-canvas --anchor-canvas c --anchor-text c\
+    --random-effect --exclude-effects dev_worm \
+    --no-eol --no-restore-cursor &
 
   while pgrep -x tte >/dev/null; do
     if read -n 1 -t 1 || ! screensaver_in_focus; then

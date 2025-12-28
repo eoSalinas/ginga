@@ -16,7 +16,7 @@ if ginga-cmd-present chromium || ginga-cmd-present helium-browser || ginga-cmd-p
     rm -f /etc/chromium/policies/managed/color.json
     chromium --no-startup-window --set-theme-color="$THEME_RGB_COLOR"
 
-    if [[ -f ~/.config/omarchy/current/theme/light.mode ]]; then
+    if [[ -f ~/.config/ginga/current/theme/light.mode ]]; then
       chromium --no-startup-window --set-color-scheme="light"
     else
       chromium --no-startup-window --set-color-scheme="dark"

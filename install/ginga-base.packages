@@ -63,6 +63,7 @@ bash-completion
 fastfetch
 fontconfig
 ttf-jetbrains-mono-nerd
+noto-fonts-emoji
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
 xdg-terminal-exec

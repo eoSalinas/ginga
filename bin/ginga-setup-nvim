@@ -1,0 +1,8 @@
+#!/bin/bash
+
+NVIM_REPO="eoSalinas/nvim"
+
+echo -e "\nCloning nvim from: https://github.com/${NVIM_REPO}.git"
+rm -rf ~/.config/nvim
+git clone "https://github.com/${NVIM_REPO}.git" ~/.config/nvim >/dev/null
+

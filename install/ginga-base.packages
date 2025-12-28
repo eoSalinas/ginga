@@ -70,6 +70,7 @@ xdg-terminal-exec
 impala
 bluetui
 wiremix
+wireplumber
 nautilus
 btop
 jq

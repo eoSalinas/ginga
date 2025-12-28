@@ -177,11 +177,11 @@ show_update_hardware_menu() {
 }
 
 show_system_menu() {
-  case $(menu "System" "  Lock\n󱄄  Screensaver\n󰤄  Suspend\n󰜉  Restart\n󰐥  Shutdown") in
+  case $(menu "System" "  Lock\n󱄄  Screensaver\n󰤄  Suspend\n󰜉  Reboot\n󰐥  Shutdown") in
   *Lock*) ginga-lock-screen ;;
   *Screensaver*) ginga-launch-screensaver force ;;
   *Suspend*) systemctl suspend ;;
-  *Restart*) ginga-cmd-reboot ;;
+  *Reboot*) ginga-cmd-reboot ;;
   *Shutdown*) ginga-cmd-shutdown ;;
   *) back_to show_main_menu ;;
   esac

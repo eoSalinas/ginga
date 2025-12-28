@@ -1,5 +1,4 @@
-# TODO: implement refresh script
-# ginga-refresh-applications
+ginga-refresh-applications
 update-desktop-database ~/.local/share/applications
 
 # Open all images with imv

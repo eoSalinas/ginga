@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Copy and sync icon files
+mkdir -p ~/.local/share/icons/hicolor/48x48/apps/
+cp ~/.local/share/ginga/applications/icons/*.png ~/.local/share/icons/hicolor/48x48/apps/
+gtk-update-icon-cache ~/.local/share/icons/hicolor &>/dev/null
+
+# Copy .desktop declarations
+mkdir -p ~/.local/share/applications
+cp ~/.local/share/ginga/applications/*.desktop ~/.local/share/applications/
+cp ~/.local/share/ginga/applications/hidden/*.desktop ~/.local/share/applications/
+
+# Refresh the webapps
+bash $GINGA_PATH/install/packaging/icons.sh
+bash $GINGA_PATH/install/packaging/webapps.sh
+
+update-desktop-database ~/.local/share/applications
